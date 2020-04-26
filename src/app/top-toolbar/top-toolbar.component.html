@@ -1,0 +1,25 @@
+<mat-toolbar color="primary">
+    <button mat-button routerLink="/"><i class="fa fa-beer"></i> {{title}}</button>
+  
+    <!-- This fills the remaining space of the current row -->
+    <span class="example-fill-remaining-space"></span>
+  
+    <button *ngIf="!user" mat-button routerLink="/login">Sign in <i class="fa fa-sign-in"></i></button>
+    <button *ngIf="user" mat-icon-button [matMenuTriggerFor]="menu">
+      <!-- <fa [name]="'ellipsis-v'"></fa> -->
+      <i class="fa fa-ellipsis-v"></i>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item disabled>
+        <!-- <fa [name]="'user'" size=1></fa> -->
+        <i class="fa fa-user"></i>
+        <span>{{user?.username}}</span>
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <!-- <fa [name]="'sign-out'" size=1></fa> -->
+        <i class="fa fa-sign-out"></i>
+        <span>Sign out</span>
+      </button>
+    </mat-menu>
+  
+</mat-toolbar>

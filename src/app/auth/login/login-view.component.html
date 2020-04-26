@@ -1,0 +1,46 @@
+<div fxFlexFill [fxLayout]="'column'">
+    <button mat-mini-fab routerLink="/">
+      <!-- <fa [name]="'arrow-left'"></fa> -->
+      <i class="fa fa-arrow-left"></i>
+    </button>
+    <div fxFlexFill [fxLayout]="'row'" fxLayoutAlign="center center">
+      <mat-card style="margin: 0;width: 200px;">
+        <div *ngIf="!tryingToLogIn">
+          <!-- <fa [name]="'lock'"></fa> -->
+          <i class="fa fa-lock"></i>
+          Login
+          <p *ngIf="signInError && signInError.length > 0" class="error-message">
+            <!-- <fa [name]="'exclamation-circle'"></fa> -->
+            <i class="fa fa-exclamation-circle"></i>
+            {{signInError}}
+          </p>
+          <form (ngSubmit)="tryLogin($event)">
+            <mat-card-content>
+              <mat-form-field>
+                <input matInput
+                       placeholder="Username"
+                       name="userName"
+                       [(ngModel)]="user.username">
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput
+                       placeholder="Password"
+                       name="password"
+                       type="password"
+                       [(ngModel)]="user.password">
+              </mat-form-field>
+  
+            </mat-card-content>
+            <mat-card-actions class="example-button-row">
+              <button type="button" class="login-button" mat-button routerLink="/lostPassword">Lost password</button>
+              <button type="submit" mat-raised-button color="primary">Sign in</button>
+            </mat-card-actions>
+          </form>
+        </div>
+        <div *ngIf="tryingToLogIn" fxFlexFill [fxLayout]="'column'" fxLayoutAlign="center center">
+          <h3><i class="fa fa-handshake"></i> We are login in, thanks for your patience</h3>
+          <h3><mat-spinner></mat-spinner></h3>
+        </div>
+      </mat-card>
+    </div>
+</div>
