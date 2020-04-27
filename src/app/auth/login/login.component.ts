@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription, Observable } from "rxjs";
 import { delay } from 'rxjs/internal/operators';
+import { AuthUser } from '../auth.user';
 
 @Component({
   selector: 'app-login',
@@ -20,38 +21,32 @@ export class LoginComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private router: Router,
     public loginValidationBar: MatSnackBar
-  ) { 
-    this.auth.logout();
-  }
+  ) {}
 
-  login(user) {
+  login(user: AuthUser) {
     this.tryingToLogIn = true;
     if (this.request) {
       this.request.unsubscribe();
     }
-    this.request = this.auth.login(user.username, user.password).pipe(delay( 1000 )).subscribe(
-        (lUser) => {
-          if (lUser) {
-            this.loginError = null;
-            this.router.navigate(['/']).then(() => {
-              this.loginValidationBar.open("You are logged in", "Ok", {
-                duration: 3000,
-              });
-            });
-          } else {
-            this.loginError = "username and password was wrong";
-          }
-        },
-        (err) => {
-          console.error(err);
-          this.loginError = "An error occoured during login, see error in console";
-          this.tryingToLogIn = false;
-        },
-        () => {
-          console.log("Done!");
-          this.tryingToLogIn = false;
-        }
-      );
+    this.request = this.auth.login(user.email, user.password).pipe(delay( 1000 )).subscribe((lUser) => {
+      if (lUser) {
+        this.loginError = null;
+        this.router.navigate(['/']).then(() => {
+          this.loginValidationBar.open("You are logged in", "Ok", { duration: 3000 });
+        });
+      } else {
+        this.loginError = "email and password was wrong";
+      }
+    },
+    (err) => {
+      console.error(err);
+      this.loginError = "An error occoured during login, see error in console";
+      this.tryingToLogIn = false;
+    },
+    () => {
+      console.log("Done!");
+      this.tryingToLogIn = false;
+    });
   }
 
   ngOnInit(): void {

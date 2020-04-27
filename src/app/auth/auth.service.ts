@@ -1,37 +1,43 @@
 import { Injectable } from '@angular/core';
 import { User } from "../users/user";
-import { Observable, of } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  users : User[];
+  userData: any;
+  authState: any;
 
-  constructor() {
-    this.users = [
-      {username: 'lbilde', password:'123', email:'cheese@namnam.dk'},
-      {username: 'ljb', password:'123', email:'cheese22@namnam22.dk'},
-      {username: 'ilikechokolate', password:'123', email:'cheese33@namnam33.dk'}
-    ];
+  constructor(
+    public afs: AngularFirestore,
+    public afAuth: AngularFireAuth
+  ) {
+    this.afAuth.authState.subscribe(user => {
+      if (user) {
+        this.userData = user;
+        localStorage.setItem('user', JSON.stringify(this.userData));
+        JSON.parse(localStorage.getItem('user'));
+      } else {
+        localStorage.setItem('user', null);
+        JSON.parse(localStorage.getItem('user'));
+      }
+    })
   }
 
-  login(username, password) : Observable<User>{
-    let userAccepted = this.users.filter(x => x.username === username).filter(y => y.password === password);
-    if(userAccepted && userAccepted.length === 1){
-      localStorage.setItem('currentUser', JSON.stringify({ token: "jwt will come later", username: userAccepted[0].username }));
-      return of(userAccepted[0]);
-    } else {
-      return of(null);
-    }
+  login(email, password): Observable<any>{
+    return from(this.afAuth.signInWithEmailAndPassword(email, password));
   }
 
-  currentUser(){
-    return JSON.parse(localStorage.getItem('currentUser'));
+  currentUser(): Observable<any>{
+    return this.afAuth.authState;
   }
 
-  logout(){
-    return localStorage.removeItem('currentUser');
+  logout(): Observable<void>{
+    // return localStorage.removeItem('currentUser');
+    return from(this.afAuth.signOut());
   }
 }

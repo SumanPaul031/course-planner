@@ -14,26 +14,28 @@ export class TopToolbarComponent implements OnInit {
   @Input()
   title : string;
 
-  user: User;
+  user: any;
 
   constructor(
     private router: Router,
     public loginValidationBar: MatSnackBar,
     private auth: AuthService
-  ) { 
-    this.user = auth.currentUser();
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.auth.currentUser().subscribe(user => {
+      this.user = user;
+    })
   }
 
   logout(){
-    this.router.navigate(['/login']).then(() => {
-      this.loginValidationBar.open("You are logged out", "Ok", {
-        duration: 3000,
+    this.auth.logout().subscribe(() => {
+      this.router.navigate(['/login']).then(() => {
+        this.loginValidationBar.open("You are logged out", "Ok", {
+          duration: 3000,
+        });
       });
     });
-
   }
 
 }
