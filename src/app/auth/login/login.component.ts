@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription, Observable } from "rxjs";
 import { delay } from 'rxjs/internal/operators';
-import { AuthUser } from '../auth.user';
+import { AuthUser } from '../auth-user';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private auth: AuthService,
     private router: Router,
-    public loginValidationBar: MatSnackBar
+    public loginValidationBar: MatSnackBar,
+    private afAuth: AngularFireAuth
   ) {}
 
   login(user: AuthUser) {
@@ -28,10 +30,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.request) {
       this.request.unsubscribe();
     }
-    this.request = this.auth.login(user.email, user.password).pipe(delay( 1000 )).subscribe((lUser) => {
+    this.request = this.auth.login(user.email, user.password).subscribe((lUser) => {
       if (lUser) {
         this.loginError = null;
-        this.router.navigate(['/']).then(() => {
+        this.router.navigate(['home']).then(() => {
           this.loginValidationBar.open("You are logged in", "Ok", { duration: 3000 });
         });
       } else {

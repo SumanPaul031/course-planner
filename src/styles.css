@@ -15,3 +15,7 @@ body {
     color: darkred;
     font-size: x-small;
 }
+
+mat-card{
+    margin: 2em;
+}

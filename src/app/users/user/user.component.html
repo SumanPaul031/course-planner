@@ -1,0 +1,20 @@
+<mat-card>
+    <mat-card-content [fxLayout]="'row'">
+        <div fxFlex="4em"><i class="fa fa-user fa-4x"></i></div>
+        <div fxFlex>
+            <h3>{{user?.username}}</h3>
+            <h4>{{user?.email}}</h4>
+        </div>
+        <div fxFlex="3em" [fxFlexAlign]="'end'" [fxLayout]="'column'">
+            <button [color]="'primary'" mat-icon-button>
+                <i class="fa fa-info"></i>
+            </button>
+            <button [color]="'accent'" mat-icon-button>
+                <i class="fa fa-edit"></i>
+            </button>
+            <button [color]="'warn'" mat-icon-button>
+                <i class="fa fa-trash"></i>
+            </button>
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AuthUser } from '../auth.user';
+import { AuthUser } from '../auth-user';
 
 @Component({
   selector: 'app-login-view',

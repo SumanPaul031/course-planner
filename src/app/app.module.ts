@@ -45,6 +45,12 @@ import { TopToolbarComponent } from './top-toolbar/top-toolbar.component';
 import { LoginComponent } from './auth/login/login.component';
 import { LoginViewComponent } from './auth/login/login-view.component';
 import { HomeComponent } from './home/home.component';
+import { AuthService } from './auth/auth.service';
+import { UserService } from './users/user.service';
+import { UsersListComponent } from './users/users-list/users-list.component';
+import { UsersCreateComponent } from './users/users-create/users-create.component';
+import { UsersComponent } from './users/users/users.component';
+import { UserComponent } from './users/user/user.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +58,11 @@ import { HomeComponent } from './home/home.component';
     TopToolbarComponent,
     LoginComponent,
     LoginViewComponent,
-    HomeComponent
+    HomeComponent,
+    UsersListComponent,
+    UsersCreateComponent,
+    UsersComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +103,10 @@ import { HomeComponent } from './home/home.component';
     AngularFirestoreModule,
     AngularFireDatabaseModule
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

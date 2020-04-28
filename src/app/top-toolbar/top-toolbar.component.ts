@@ -31,9 +31,7 @@ export class TopToolbarComponent implements OnInit {
   logout(){
     this.auth.logout().subscribe(() => {
       this.router.navigate(['/login']).then(() => {
-        this.loginValidationBar.open("You are logged out", "Ok", {
-          duration: 3000,
-        });
+        this.loginValidationBar.open("You are logged out", "Ok", { duration: 3000 });
       });
     });
   }
